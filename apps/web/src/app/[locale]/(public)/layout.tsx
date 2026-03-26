@@ -1,4 +1,4 @@
-import { SiteHeader, WhatsAppFab } from '@/modules/core/components';
+import { SiteHeader, SiteFooter, WhatsAppFab } from '@/modules/core/components';
 
 type Props = {
   children: React.ReactNode;
@@ -12,6 +12,7 @@ export default async function PublicLayout({ children, params }: Props) {
     <>
       <SiteHeader locale={locale} />
       <main>{children}</main>
+      <SiteFooter locale={locale} />
       <WhatsAppFab locale={locale} />
     </>
   );

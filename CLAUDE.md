@@ -222,3 +222,38 @@ Complex tasks → Opus
 - architecture changes
 - large refactors
 - system design
+
+## Mandatory Commit Rule
+
+After completing **any task**, you MUST create a Git commit before proceeding.
+
+### Rules
+
+- A task is **NOT complete** until it is committed
+- Create **exactly one commit per task**
+- Do **not** combine multiple tasks into a single commit
+- Do **not** continue to the next task without committing
+
+### Commit Requirements
+
+- Use conventional commit format:
+
+  ```
+  <type>(scope): <description>
+  ```
+
+- Choose appropriate type: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `perf`, `ci`
+- Use correct scope based on workspace:
+  - `web`, `admin`, `api`, or package name
+
+- Message must reflect the **actual implemented change**, not just the task title
+
+### Before Committing
+
+- Verify the implementation works
+- Ensure no broken behavior or regressions
+- Review the diff and remove unnecessary changes
+
+### Failure Condition
+
+If you finish a task and do not create a commit, the task is considered **incomplete**.
