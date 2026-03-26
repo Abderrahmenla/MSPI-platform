@@ -36,7 +36,7 @@ export function CartItemRow({ item, locale }: CartItemRowProps) {
     );
 
   const thumbnail = [...(product.images ?? [])].sort(
-    (a, b) => a.sortOrder - b.sortOrder,
+    (a, b) => a.position - b.position,
   )[0]?.url;
 
   const subtotalLabel =

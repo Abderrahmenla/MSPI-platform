@@ -1,7 +1,7 @@
 export interface ProductImage {
   id: number;
   url: string;
-  sortOrder: number;
+  position: number;
 }
 
 export interface Product {

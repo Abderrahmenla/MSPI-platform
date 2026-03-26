@@ -106,7 +106,7 @@ describe('ProductCard', () => {
   it('shows thumbnail when images are present', () => {
     const withImage = {
       ...baseProduct,
-      images: [{ id: 1, url: '/uploads/test.jpg', sortOrder: 0 }],
+      images: [{ id: 1, url: '/uploads/test.jpg', position: 0 }],
     };
     const { container } = render(
       <ProductCard product={withImage} locale="en" />,

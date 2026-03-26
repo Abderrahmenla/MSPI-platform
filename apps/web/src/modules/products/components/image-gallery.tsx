@@ -48,7 +48,7 @@ function PlaceholderImage({ isOos }: { isOos?: boolean }) {
 }
 
 export function ImageGallery({ images, alt, isOos }: ImageGalleryProps) {
-  const sorted = [...images].sort((a, b) => a.sortOrder - b.sortOrder);
+  const sorted = [...images].sort((a, b) => a.position - b.position);
   const [activeIdx, setActiveIdx] = useState(0);
 
   if (sorted.length === 0) {

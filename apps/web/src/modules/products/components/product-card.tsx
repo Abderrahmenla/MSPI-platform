@@ -70,7 +70,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
 
   const thumbnail = product.images
     .slice()
-    .sort((a, b) => a.sortOrder - b.sortOrder)[0]?.url;
+    .sort((a, b) => a.position - b.position)[0]?.url;
 
   const isOos = product.stock === 0;
 
