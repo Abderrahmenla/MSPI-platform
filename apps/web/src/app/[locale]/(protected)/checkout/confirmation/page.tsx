@@ -35,7 +35,12 @@ type Props = {
 export default function CheckoutConfirmationPage({ params: _params }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const ref = searchParams.get('ref');
+  const rawRef = searchParams.get('ref');
+
+  // Validate that ref matches expected order reference format (e.g., ORD-XXXXXX)
+  // to prevent social-engineering via crafted query strings.
+  const ORDER_REF_PATTERN = /^[A-Z]{2,5}-[A-Za-z0-9]{4,20}$/;
+  const ref = rawRef && ORDER_REF_PATTERN.test(rawRef) ? rawRef : null;
 
   useEffect(() => {
     if (!ref) {

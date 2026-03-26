@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useRouter } from '@/i18n/navigation';
+import { useLocale } from 'next-intl';
 import { ROUTES_MAP } from '@/modules/core/constants';
 import { useCart } from '@/modules/cart/hooks/use-cart';
 import { CheckoutForm } from '@/modules/orders/components/checkout-form';
@@ -69,8 +70,7 @@ export default function CheckoutPage({ params: _params }: Props) {
     );
   }
 
-  // locale prop is available via next-intl's useLocale() if needed; hardcoded to 'fr' for admin-first phase
-  const locale = 'fr';
+  const locale = useLocale();
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 md:px-6">

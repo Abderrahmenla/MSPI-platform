@@ -104,27 +104,48 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
     >
       {/* Phone */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="checkout-phone"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           {label('phone')} <span className="text-red-500">*</span>
         </label>
         <input
+          id="checkout-phone"
           type="tel"
           placeholder={label('phonePlaceholder')}
           disabled={isPending}
+          autoComplete="tel"
           className={fieldClass}
-          {...register('phone', { required: requiredMsg })}
+          {...register('phone', {
+            required: requiredMsg,
+            pattern: {
+              value: /^(?:\+?216)?[2-9]\d{7}$/,
+              message:
+                locale === 'ar'
+                  ? 'رقم هاتف غير صالح'
+                  : locale === 'en'
+                    ? 'Invalid phone number'
+                    : 'Numéro de téléphone invalide',
+            },
+          })}
         />
         {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
       </div>
 
       {/* Address */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="checkout-address"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           {label('address')} <span className="text-red-500">*</span>
         </label>
         <input
+          id="checkout-address"
           type="text"
           disabled={isPending}
+          autoComplete="street-address"
           className={fieldClass}
           {...register('address', { required: requiredMsg })}
         />
@@ -135,12 +156,17 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
 
       {/* City */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="checkout-city"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           {label('city')} <span className="text-red-500">*</span>
         </label>
         <input
+          id="checkout-city"
           type="text"
           disabled={isPending}
+          autoComplete="address-level2"
           className={fieldClass}
           {...register('city', { required: requiredMsg })}
         />
@@ -149,10 +175,14 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
 
       {/* Label (optional) */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="checkout-label"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           {label('label')}
         </label>
         <input
+          id="checkout-label"
           type="text"
           disabled={isPending}
           className={fieldClass}
@@ -161,11 +191,16 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
       </div>
 
       {/* Generic error */}
-      {isError && !is401 && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
-          {label('errorGeneric')}
-        </p>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {isError && !is401 && (
+          <p
+            role="alert"
+            className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600"
+          >
+            {label('errorGeneric')}
+          </p>
+        )}
+      </div>
 
       {/* Submit */}
       <button

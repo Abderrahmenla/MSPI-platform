@@ -95,12 +95,17 @@ export function QuoteForm() {
     >
       {/* Contact Name */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="quote-contactName"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           Nom complet <span className="text-red-500">*</span>
         </label>
         <input
+          id="quote-contactName"
           type="text"
           disabled={isPending}
+          autoComplete="name"
           className={fieldClass}
           placeholder="Ex : Mohamed Ben Ali"
           {...register('contactName', { required: 'Champ obligatoire' })}
@@ -112,15 +117,26 @@ export function QuoteForm() {
 
       {/* Phone */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="quote-contactPhone"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           Téléphone <span className="text-red-500">*</span>
         </label>
         <input
+          id="quote-contactPhone"
           type="tel"
           disabled={isPending}
+          autoComplete="tel"
           className={fieldClass}
           placeholder="Ex : 21612345678"
-          {...register('contactPhone', { required: 'Champ obligatoire' })}
+          {...register('contactPhone', {
+            required: 'Champ obligatoire',
+            pattern: {
+              value: /^(?:\+?216)?[2-9]\d{7}$/,
+              message: 'Numéro de téléphone invalide',
+            },
+          })}
         />
         {errors.contactPhone && (
           <p className={errorClass}>{errors.contactPhone.message}</p>
@@ -129,13 +145,18 @@ export function QuoteForm() {
 
       {/* Company (optional) */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="quote-companyName"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           Entreprise{' '}
           <span className="text-xs font-normal text-gray-400">(optionnel)</span>
         </label>
         <input
+          id="quote-companyName"
           type="text"
           disabled={isPending}
+          autoComplete="organization"
           className={fieldClass}
           placeholder="Ex : MSPI Sécurité"
           {...register('companyName')}
@@ -144,13 +165,18 @@ export function QuoteForm() {
 
       {/* Email (optional) */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="quote-contactEmail"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           Email{' '}
           <span className="text-xs font-normal text-gray-400">(optionnel)</span>
         </label>
         <input
+          id="quote-contactEmail"
           type="email"
           disabled={isPending}
+          autoComplete="email"
           className={fieldClass}
           placeholder="Ex : contact@entreprise.com"
           {...register('contactEmail', {
@@ -167,10 +193,14 @@ export function QuoteForm() {
 
       {/* Message */}
       <div>
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="quote-message"
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
           Décrivez votre besoin <span className="text-red-500">*</span>
         </label>
         <textarea
+          id="quote-message"
           rows={5}
           disabled={isPending}
           className={cn(fieldClass, 'resize-none')}
@@ -189,11 +219,16 @@ export function QuoteForm() {
       </div>
 
       {/* Generic error */}
-      {isError && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
-          Une erreur s&apos;est produite. Veuillez réessayer.
-        </p>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {isError && (
+          <p
+            role="alert"
+            className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600"
+          >
+            Une erreur s&apos;est produite. Veuillez réessayer.
+          </p>
+        )}
+      </div>
 
       {/* Submit */}
       <button

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { useEffect } from 'react';
 import { useOrders } from '@/modules/orders/hooks/use-orders';
 import { useQuotes } from '@/modules/quotes/hooks/use-quotes';
@@ -69,7 +69,7 @@ export default function AccountPage() {
     const is401 = (err: unknown) =>
       (err as { response?: { status?: number } })?.response?.status === 401;
     if (is401(ordersError) || is401(quotesError)) {
-      router.push(ROUTES_MAP.login);
+      router.replace(ROUTES_MAP.login);
     }
   }, [ordersError, quotesError, router]);
 
