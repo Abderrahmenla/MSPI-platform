@@ -5,6 +5,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { QueryProvider } from '@/modules/core/providers';
+import { CartMergeOnLogin } from '@/modules/cart/components/cart-merge-on-login';
 import '../globals.css';
 
 const rubik = Rubik({
@@ -49,7 +50,10 @@ export default async function LocaleLayout({ children, params }: Props) {
     >
       <body className="min-h-screen bg-white text-gray-900 antialiased">
         <NextIntlClientProvider messages={messages}>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <CartMergeOnLogin />
+            {children}
+          </QueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>

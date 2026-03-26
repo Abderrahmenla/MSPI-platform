@@ -1,20 +1,24 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from '@/i18n/navigation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCartItem, type AddCartItemPayload } from '../api/cart.api';
-import { ROUTES_MAP } from '@/modules/core/constants';
+import { addGuestCartItem } from '../lib/guest-cart';
+import { cartKeys } from '../constants/cart-query-keys.constants';
 
 export function useAddToCart() {
-  const router = useRouter();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (payload: AddCartItemPayload) => addCartItem(payload),
-    onError: (error: unknown) => {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: cartKeys.detail() });
+    },
+    onError: (error: unknown, variables) => {
       const status = (error as { response?: { status?: number } })?.response
         ?.status;
       if (status === 401) {
-        router.push(ROUTES_MAP.login);
+        // Guest: persist to localStorage so it can be merged after login
+        addGuestCartItem(variables.productId, variables.qty);
       }
     },
   });

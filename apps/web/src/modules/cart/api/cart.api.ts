@@ -25,3 +25,11 @@ export async function updateCartItem(
 export async function removeCartItem(itemId: number): Promise<void> {
   await http.delete(`/customer/cart/items/${itemId}`);
 }
+
+export interface MergeCartPayload {
+  items: { productId: number; qty: number }[];
+}
+
+export async function mergeCart(payload: MergeCartPayload): Promise<void> {
+  await http.post('/customer/cart/merge', payload);
+}
