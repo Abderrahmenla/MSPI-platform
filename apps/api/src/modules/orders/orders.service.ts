@@ -10,7 +10,16 @@ import { CartRepository } from '../cart/cart.repository';
 import { OrdersRepository } from './orders.repository';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ListOrdersDto } from './dto/list-orders.dto';
+import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 import { OrderStatus, type PrismaClient, Prisma } from '@prisma/client';
+
+const VALID_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
+  [OrderStatus.PENDING]: [OrderStatus.CONFIRMED, OrderStatus.CANCELLED],
+  [OrderStatus.CONFIRMED]: [OrderStatus.SHIPPED, OrderStatus.CANCELLED],
+  [OrderStatus.SHIPPED]: [OrderStatus.DELIVERED],
+  [OrderStatus.DELIVERED]: [],
+  [OrderStatus.CANCELLED]: [],
+};
 
 function generateRef(): string {
   const now = new Date();
@@ -157,5 +166,31 @@ export class OrdersService {
       dto.status,
     );
     return { data: orders, meta: { total, page, limit } };
+  }
+
+  async transition(uuid: string, dto: UpdateOrderStatusDto, adminId: bigint) {
+    const order = await this.ordersRepo.findByUuid(uuid);
+    if (!order) throw new NotFoundException('Order not found');
+
+    const allowed = VALID_TRANSITIONS[order.status];
+    if (!allowed.includes(dto.status)) {
+      throw new BadRequestException(
+        `Cannot transition from ${order.status} to ${dto.status}`,
+      );
+    }
+
+    const updated = await this.ordersRepo.updateStatus(
+      uuid,
+      dto.status,
+      adminId,
+      order.status,
+      dto.note,
+    );
+
+    if (dto.trackingNumber) {
+      await this.ordersRepo.updateTracking(uuid, dto.trackingNumber);
+    }
+
+    return { data: updated };
   }
 }
