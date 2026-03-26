@@ -1,0 +1,11 @@
+{
+  "common": {
+    "siteName": "MSPI Fire Safety",
+    "home": "Home",
+    "products": "Products",
+    "cart": "Cart",
+    "quote": "Request a Quote",
+    "account": "My Account",
+    "login": "Login"
+  }
+}

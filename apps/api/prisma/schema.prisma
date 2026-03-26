@@ -1,0 +1,332 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── ENUMS ───────────────────────────────────────────
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum QuoteStatus {
+  NEW
+  CONTACTED
+  OFFER_SENT
+  WON
+  LOST
+  EXPIRED
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  MANAGER
+  OPERATOR
+  VIEWER
+}
+
+enum StockReason {
+  RESTOCK
+  SALE
+  LOST
+  DAMAGE
+  THEFT
+  CORRECTION
+}
+
+enum Language {
+  AR
+  FR
+  EN
+}
+
+// ─── CUSTOMERS ───────────────────────────────────────
+
+model User {
+  id         BigInt    @id @default(autoincrement())
+  uuid       String    @unique @default(uuid())
+  facebookId String    @unique @map("facebook_id")
+  name       String
+  phone      String?
+  email      String?
+  langPref   Language  @default(AR) @map("lang_pref")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  addresses  Address[]
+  cart       Cart?
+  orders     Order[]
+  quotes     Quote[]
+  notes      Note[]    @relation("CustomerNotes")
+
+  @@map("users")
+}
+
+model Address {
+  id        BigInt   @id @default(autoincrement())
+  userId    BigInt   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  label     String?
+  address   String
+  city      String
+  isDefault Boolean  @default(false) @map("is_default")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("addresses")
+}
+
+// ─── CART ─────────────────────────────────────────────
+
+model Cart {
+  id        BigInt     @id @default(autoincrement())
+  userId    BigInt     @unique @map("user_id")
+  user      User       @relation(fields: [userId], references: [id])
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  items     CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        BigInt   @id @default(autoincrement())
+  cartId    BigInt   @map("cart_id")
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId BigInt   @map("product_id")
+  product   Product  @relation(fields: [productId], references: [id])
+  qty       Int
+  addedAt   DateTime @default(now()) @map("added_at")
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+// ─── PRODUCTS ─────────────────────────────────────────
+
+model Product {
+  id          BigInt   @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  sku         String   @unique
+  slug        String   @unique
+  nameAr      String   @map("name_ar")
+  nameFr      String   @map("name_fr")
+  nameEn      String   @map("name_en")
+  descAr      String?  @map("desc_ar")
+  descFr      String?  @map("desc_fr")
+  descEn      String?  @map("desc_en")
+  category    String?
+  price       Decimal  @db.Decimal(10, 2)
+  stock       Int      @default(0)
+  threshold   Int      @default(5)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  images       ProductImage[]
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
+  stockHistory StockHistory[]
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        BigInt  @id @default(autoincrement())
+  productId BigInt  @map("product_id")
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  position  Int     @default(0)
+
+  @@map("product_images")
+}
+
+model StockHistory {
+  id        BigInt      @id @default(autoincrement())
+  productId BigInt      @map("product_id")
+  product   Product     @relation(fields: [productId], references: [id])
+  adminId   BigInt      @map("admin_id")
+  admin     Admin       @relation(fields: [adminId], references: [id])
+  qtyDelta  Int         @map("qty_delta")
+  reason    StockReason
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  @@map("stock_history")
+}
+
+// ─── ORDERS ───────────────────────────────────────────
+
+model Order {
+  id              BigInt      @id @default(autoincrement())
+  uuid            String      @unique @default(uuid())
+  ref             String      @unique
+  userId          BigInt      @map("user_id")
+  user            User        @relation(fields: [userId], references: [id])
+  status          OrderStatus @default(PENDING)
+  phone           String
+  addressSnapshot Json        @map("address_snapshot")
+  trackingNumber  String?     @map("tracking_number")
+  total           Decimal     @db.Decimal(10, 2)
+  idempotencyKey  String      @unique @map("idempotency_key")
+  quoteId         BigInt?     @map("quote_id")
+  quote           Quote?      @relation(fields: [quoteId], references: [id])
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  items         OrderItem[]
+  notes         Note[]      @relation("OrderNotes")
+  statusHistory OrderStatusHistory[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        BigInt  @id @default(autoincrement())
+  orderId   BigInt  @map("order_id")
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId BigInt  @map("product_id")
+  product   Product @relation(fields: [productId], references: [id])
+  qty       Int
+  price     Decimal @db.Decimal(10, 2)
+
+  @@map("order_items")
+}
+
+model OrderStatusHistory {
+  id         BigInt       @id @default(autoincrement())
+  orderId    BigInt       @map("order_id")
+  order      Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  fromStatus OrderStatus? @map("from_status")
+  toStatus   OrderStatus  @map("to_status")
+  adminId    BigInt?      @map("admin_id")
+  admin      Admin?       @relation(fields: [adminId], references: [id])
+  note       String?
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  @@index([orderId])
+  @@map("order_status_history")
+}
+
+// ─── QUOTES ───────────────────────────────────────────
+
+model Quote {
+  id             BigInt      @id @default(autoincrement())
+  uuid           String      @unique @default(uuid())
+  ref            String      @unique
+  userId         BigInt      @map("user_id")
+  user           User        @relation(fields: [userId], references: [id])
+  status         QuoteStatus @default(NEW)
+  serviceType    String      @map("service_type")
+  propertyType   String      @map("property_type")
+  surfaceOrRooms String?     @map("surface_or_rooms")
+  hasElectrical  Boolean     @default(false) @map("has_electrical")
+  freeText       String?     @map("free_text")
+  phone          String
+  city           String
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
+
+  orders        Order[]
+  notes         Note[]      @relation("QuoteNotes")
+  statusHistory QuoteStatusHistory[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("quotes")
+}
+
+model QuoteStatusHistory {
+  id         BigInt       @id @default(autoincrement())
+  quoteId    BigInt       @map("quote_id")
+  quote      Quote        @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  fromStatus QuoteStatus? @map("from_status")
+  toStatus   QuoteStatus  @map("to_status")
+  adminId    BigInt?      @map("admin_id")
+  admin      Admin?       @relation(fields: [adminId], references: [id])
+  note       String?
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  @@index([quoteId])
+  @@map("quote_status_history")
+}
+
+// ─── ADMIN ────────────────────────────────────────────
+
+model Admin {
+  id           BigInt    @id @default(autoincrement())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  name         String
+  role         AdminRole @default(OPERATOR)
+  active       Boolean   @default(true)
+  lastLoginAt    DateTime? @map("last_login_at")
+  failedAttempts Int       @default(0) @map("failed_attempts")
+  lockedUntil    DateTime? @map("locked_until")
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  notes              Note[]
+  auditLogs          AuditLog[]
+  stockHistory       StockHistory[]
+  orderStatusHistory OrderStatusHistory[]
+  quoteStatusHistory QuoteStatusHistory[]
+
+  @@map("admins")
+}
+
+// ─── NOTES ────────────────────────────────────────────
+
+model Note {
+  id         BigInt   @id @default(autoincrement())
+  body       String
+  authorId   BigInt   @map("author_id")
+  author     Admin    @relation(fields: [authorId], references: [id])
+
+  orderId    BigInt?  @map("order_id")
+  order      Order?   @relation("OrderNotes", fields: [orderId], references: [id])
+  quoteId    BigInt?  @map("quote_id")
+  quote      Quote?   @relation("QuoteNotes", fields: [quoteId], references: [id])
+  customerId BigInt?  @map("customer_id")
+  customer   User?    @relation("CustomerNotes", fields: [customerId], references: [id])
+
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("notes")
+}
+
+// ─── AUDIT LOG ────────────────────────────────────────
+
+model AuditLog {
+  id        BigInt   @id @default(autoincrement())
+  adminId   BigInt   @map("admin_id")
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  action    String
+  resource  String
+  before    Json?
+  after     Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([adminId])
+  @@index([createdAt])
+  @@index([action])
+  @@map("audit_log")
+}
+
+// ─── SETTINGS ─────────────────────────────────────────
+
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}

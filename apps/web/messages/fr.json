@@ -1,0 +1,11 @@
+{
+  "common": {
+    "siteName": "MSPI Sécurité Incendie",
+    "home": "Accueil",
+    "products": "Produits",
+    "cart": "Panier",
+    "quote": "Demande de devis",
+    "account": "Mon compte",
+    "login": "Connexion"
+  }
+}

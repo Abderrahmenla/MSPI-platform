@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+:root {
+  --color-brand-400: #f06a5a;
+  --color-brand-500: #ec4130;
+  --color-brand-600: #d63828;
+  --color-brand-700: #b32a1f;
+  --color-error: #dc2626;
+}
+
+@theme {
+  --color-brand-400: var(--color-brand-400);
+  --color-brand-500: var(--color-brand-500);
+  --color-brand-600: var(--color-brand-600);
+  --color-brand-700: var(--color-brand-700);
+  --color-error: var(--color-error);
+}
+
+body {
+  font-family: var(--font-nunito-sans), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-rubik), sans-serif;
+}

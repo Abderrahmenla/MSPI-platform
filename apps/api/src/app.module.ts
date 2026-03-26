@@ -1,0 +1,46 @@
+import { Module } from '@nestjs/common';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
+
+import { validate } from './config/env.validation';
+import { DatabaseModule } from './database/database.module';
+import { HealthModule } from './modules/health/health.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validate,
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => [
+        {
+          ttl: configService.get<number>('THROTTLE_TTL', 60) * 1000,
+          limit: configService.get<number>('THROTTLE_LIMIT', 100),
+        },
+      ],
+    }),
+    DatabaseModule,
+    HealthModule,
+    AuthModule,
+    UsersModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AuditLogInterceptor,
+    },
+  ],
+})
+export class AppModule {}
