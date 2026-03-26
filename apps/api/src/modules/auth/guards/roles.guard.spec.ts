@@ -1,4 +1,8 @@
-import { ExecutionContext, ForbiddenException } from '@nestjs/common';
+import {
+  ExecutionContext,
+  ForbiddenException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 import { RolesGuard } from './roles.guard';
@@ -51,12 +55,12 @@ describe('RolesGuard', () => {
     expect(() => guard.canActivate(ctx)).toThrow(ForbiddenException);
   });
 
-  it('throws ForbiddenException when user object is null', () => {
+  it('throws UnauthorizedException when user object is null (unauthenticated)', () => {
     const reflector = buildReflector(['SUPER_ADMIN']);
     const guard = new RolesGuard(reflector);
     const ctx = buildContext(null);
 
-    expect(() => guard.canActivate(ctx)).toThrow(ForbiddenException);
+    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
   });
 
   it('allows request when no roles are defined on endpoint (undefined)', () => {

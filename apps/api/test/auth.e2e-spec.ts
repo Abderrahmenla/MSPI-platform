@@ -13,10 +13,17 @@ import { FacebookAuthGuard } from '../src/modules/auth/guards/facebook-auth.guar
 // Mocks
 // ---------------------------------------------------------------------------
 
-const buildPrismaMock = () => ({
-  user: { upsert: jest.fn(), findUnique: jest.fn() },
-  admin: { findUnique: jest.fn(), update: jest.fn() },
-});
+const buildPrismaMock = () => {
+  const mock = {
+    user: { upsert: jest.fn(), findUnique: jest.fn() },
+    admin: { findUnique: jest.fn(), update: jest.fn() },
+    $transaction: jest.fn(),
+  };
+  mock.$transaction.mockImplementation(
+    async (fn: (tx: typeof mock) => Promise<unknown>) => fn(mock),
+  );
+  return mock;
+};
 
 const CONFIG_VALUES: Record<string, string | number> = {
   JWT_SECRET: 'e2e-test-customer-secret',

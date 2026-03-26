@@ -28,9 +28,9 @@
 - [x] M1-T06 — Implement Users module
 - [x] M1-T07 — Implement global exception filter
 - [x] M1-T08 — Implement audit log interceptor
-- [ ] M1-T09 — Write auth unit tests
-- [ ] M1-T10 — Write auth integration tests (e2e)
-- [ ] M1-T11 — Auth security review
+- [x] M1-T09 — Write auth unit tests
+- [x] M1-T10 — Write auth integration tests (e2e)
+- [x] M1-T11 — Auth security review
 
 ---
 

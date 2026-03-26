@@ -108,11 +108,14 @@ describe('AdminAuthController', () => {
       );
     });
 
-    it('sets secure=false outside production', async () => {
+    it('sets secure=false in local environment', async () => {
+      const module = await buildModule('local');
+      const localController =
+        module.get<AdminAuthController>(AdminAuthController);
       authService.validateAdmin.mockResolvedValue(mockAdmin);
       const res = buildResMock();
 
-      await controller.login(
+      await localController.login(
         { email: 'admin@mspi.tn', password: 'correct-password' },
         res,
       );
@@ -165,9 +168,14 @@ describe('AdminAuthController', () => {
 
       const result = controller.logout(res);
 
-      expect(res.clearCookie).toHaveBeenCalledWith('admin_token', {
-        path: '/',
-      });
+      expect(res.clearCookie).toHaveBeenCalledWith(
+        'admin_token',
+        expect.objectContaining({
+          path: '/',
+          httpOnly: true,
+          sameSite: 'strict',
+        }),
+      );
       expect(result).toEqual({ message: 'Logged out' });
     });
   });

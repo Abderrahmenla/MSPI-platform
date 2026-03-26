@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
@@ -24,7 +25,12 @@ export class RolesGuard implements CanActivate {
 
     const { user } = context.switchToHttp().getRequest();
 
-    if (!user?.role) {
+    // No authenticated user means AdminAuthGuard was not applied first.
+    if (!user) {
+      throw new UnauthorizedException('Authentication required');
+    }
+
+    if (!user.role) {
       throw new ForbiddenException('Insufficient permissions');
     }
 

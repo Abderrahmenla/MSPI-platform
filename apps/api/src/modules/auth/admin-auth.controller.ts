@@ -1,5 +1,6 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Throttle } from '@nestjs/throttler';
 import { Response } from 'express';
 
 import { AuthService } from './auth.service';
@@ -12,6 +13,8 @@ export class AdminAuthController {
     private readonly configService: ConfigService,
   ) {}
 
+  // Tighter per-route limit: 10 attempts per 60 s per IP.
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
   @Post('login')
   async login(
     @Body() dto: AdminLoginDto,
@@ -21,9 +24,13 @@ export class AdminAuthController {
 
     const token = this.authService.generateAdminJwt(admin.uuid, admin.role);
 
+    // secure: true everywhere except local dev to prevent cookie leakage in
+    // staging/CI. NODE_ENV=local is the only explicit opt-out.
+    const secure = this.configService.get('NODE_ENV') !== 'local';
+
     res.cookie('admin_token', token, {
       httpOnly: true,
-      secure: this.configService.get('NODE_ENV') === 'production',
+      secure,
       sameSite: 'strict',
       maxAge: 60 * 60 * 1000, // 60 min
       path: '/',
@@ -37,7 +44,13 @@ export class AdminAuthController {
 
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('admin_token', { path: '/' });
+    const secure = this.configService.get('NODE_ENV') !== 'local';
+    res.clearCookie('admin_token', {
+      httpOnly: true,
+      secure,
+      sameSite: 'strict',
+      path: '/',
+    });
     return { message: 'Logged out' };
   }
 }

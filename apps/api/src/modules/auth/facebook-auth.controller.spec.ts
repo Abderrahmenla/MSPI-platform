@@ -126,10 +126,14 @@ describe('FacebookAuthController', () => {
       expect(res.redirect).toHaveBeenCalledWith('http://localhost:3000');
     });
 
-    it('sets secure=false outside production', () => {
+    it('sets secure=false in local environment', async () => {
+      const module = await buildModule('http://localhost:3000', 'local');
+      const localController = module.get<FacebookAuthController>(
+        FacebookAuthController,
+      );
       const res = buildResMock();
 
-      controller.facebookCallback(buildReq() as never, res);
+      localController.facebookCallback(buildReq() as never, res);
 
       expect(res.cookie).toHaveBeenCalledWith(
         'token',
@@ -173,7 +177,10 @@ describe('FacebookAuthController', () => {
 
       const result = controller.logout(res);
 
-      expect(res.clearCookie).toHaveBeenCalledWith('token', { path: '/' });
+      expect(res.clearCookie).toHaveBeenCalledWith(
+        'token',
+        expect.objectContaining({ path: '/', httpOnly: true, sameSite: 'lax' }),
+      );
       expect(result).toEqual({ message: 'Logged out' });
     });
   });

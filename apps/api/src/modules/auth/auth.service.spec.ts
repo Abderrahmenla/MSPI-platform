@@ -35,16 +35,25 @@ const mockAdmin = {
 // Mock factories
 // ---------------------------------------------------------------------------
 
-const buildPrismaMock = () => ({
-  user: {
-    upsert: jest.fn(),
-    findUnique: jest.fn(),
-  },
-  admin: {
-    findUnique: jest.fn(),
-    update: jest.fn(),
-  },
-});
+const buildPrismaMock = () => {
+  const mock = {
+    user: {
+      upsert: jest.fn(),
+      findUnique: jest.fn(),
+    },
+    admin: {
+      findUnique: jest.fn(),
+      update: jest.fn(),
+    },
+    // Execute the callback with the same mock so tx.admin.* share the same
+    // jest.fn() instances, keeping existing assertions on prisma.admin.update.
+    $transaction: jest.fn(),
+  };
+  mock.$transaction.mockImplementation(
+    async (fn: (tx: typeof mock) => Promise<unknown>) => fn(mock),
+  );
+  return mock;
+};
 
 const buildJwtMock = () => ({
   sign: jest.fn().mockReturnValue('signed.jwt.token'),

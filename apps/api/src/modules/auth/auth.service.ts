@@ -96,16 +96,24 @@ export class AuthService {
     const isPasswordValid = await bcrypt.compare(password, admin.passwordHash);
 
     if (!isPasswordValid) {
-      const newCount = admin.failedAttempts + 1;
-      await this.prisma.admin.update({
-        where: { id: admin.id },
-        data: {
-          failedAttempts: newCount,
-          lockedUntil:
-            newCount >= LOCKOUT_THRESHOLD
-              ? new Date(Date.now() + LOCKOUT_WINDOW_MS)
-              : null,
-        },
+      // Atomic read-then-write in a transaction to prevent race-condition
+      // brute-force bypass when concurrent requests increment the counter.
+      await this.prisma.$transaction(async (tx) => {
+        const fresh = await tx.admin.findUnique({
+          where: { id: admin.id },
+          select: { failedAttempts: true },
+        });
+        const newCount = (fresh?.failedAttempts ?? 0) + 1;
+        await tx.admin.update({
+          where: { id: admin.id },
+          data: {
+            failedAttempts: newCount,
+            lockedUntil:
+              newCount >= LOCKOUT_THRESHOLD
+                ? new Date(Date.now() + LOCKOUT_WINDOW_MS)
+                : null,
+          },
+        });
       });
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -119,7 +127,7 @@ export class AuthService {
       },
     });
 
-    this.logger.log(`Admin authenticated: ${admin.email} (${admin.role})`);
+    this.logger.log(`Admin authenticated: id=${admin.id} role=${admin.role}`);
 
     return {
       uuid: `${admin.id}`,
