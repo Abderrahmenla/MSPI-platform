@@ -9,6 +9,7 @@ import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProductsModule } from './modules/products/products.module';
+import { CartModule } from './modules/cart/cart.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor';
 
@@ -33,6 +34,7 @@ import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor
     AuthModule,
     UsersModule,
     ProductsModule,
+    CartModule,
   ],
   providers: [
     {

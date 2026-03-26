@@ -43,6 +43,10 @@ export class ProductsRepository {
     });
   }
 
+  async findById(id: bigint) {
+    return this.prisma.product.findUnique({ where: { id } });
+  }
+
   // ─── Admin ──────────────────────────────────────────
 
   async findAllProducts(opts: {
