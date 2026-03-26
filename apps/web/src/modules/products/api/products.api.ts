@@ -4,7 +4,7 @@ import type {
   ProductResponse,
 } from '../types/product.types';
 
-export interface ListProductsParams {
+export interface ListProductsParams extends Record<string, unknown> {
   page?: number;
   limit?: number;
   category?: string;
