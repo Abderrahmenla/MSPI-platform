@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils';
+
 const BADGES = [
   {
     key: 'cod',
@@ -101,12 +103,10 @@ interface TrustBadgesProps {
 export function TrustBadges({ locale, className }: TrustBadgesProps) {
   return (
     <div
-      className={[
+      className={cn(
         'flex gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-4 md:overflow-x-visible md:pb-0',
         className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
+      )}
     >
       {BADGES.map((badge) => (
         <div

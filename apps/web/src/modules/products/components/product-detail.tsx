@@ -165,7 +165,10 @@ export function ProductDetail({ slug, locale }: ProductDetailProps) {
         </div>
 
         {/* Trust badges */}
-        <TrustBadges locale={locale} className="!grid-cols-2 lg:!grid-cols-4" />
+        <TrustBadges
+          locale={locale}
+          className="md:grid-cols-2 lg:grid-cols-4"
+        />
 
         {/* Description */}
         {desc && (
