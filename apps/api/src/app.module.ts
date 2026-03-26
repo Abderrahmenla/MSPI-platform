@@ -11,6 +11,7 @@ import { UsersModule } from './modules/users/users.module';
 import { ProductsModule } from './modules/products/products.module';
 import { CartModule } from './modules/cart/cart.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { QuotesModule } from './modules/quotes/quotes.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor';
 
@@ -37,6 +38,7 @@ import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor
     ProductsModule,
     CartModule,
     OrdersModule,
+    QuotesModule,
   ],
   providers: [
     {
