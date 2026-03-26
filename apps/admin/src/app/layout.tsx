@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Rubik, Nunito_Sans } from 'next/font/google';
 
+import { QueryProvider } from '@/modules/core/providers';
 import './globals.css';
 
 const rubik = Rubik({
@@ -28,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${rubik.variable} ${nunitoSans.variable} antialiased`}>
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
