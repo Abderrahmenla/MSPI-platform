@@ -48,6 +48,7 @@ export default function SettingsPage() {
     message: string;
   } | null>(null);
   const [toggleError, setToggleError] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<number | null>(null);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -72,10 +73,13 @@ export default function SettingsPage() {
 
   async function handleToggle(id: number, currentlyActive: boolean) {
     setToggleError(null);
+    setTogglingId(id);
     try {
       await toggleStaff.mutateAsync({ id, activate: !currentlyActive });
     } catch {
       setToggleError('Impossible de modifier le statut. Veuillez réessayer.');
+    } finally {
+      setTogglingId(null);
     }
   }
 
@@ -110,10 +114,14 @@ export default function SettingsPage() {
             <h3 className="mb-4 font-medium text-gray-900">Créer un membre</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="staff-name"
+                  className="mb-1 block text-sm font-medium text-gray-700"
+                >
                   Nom *
                 </label>
                 <input
+                  id="staff-name"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
@@ -125,10 +133,14 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="staff-email"
+                  className="mb-1 block text-sm font-medium text-gray-700"
+                >
                   Email *
                 </label>
                 <input
+                  id="staff-email"
                   name="email"
                   type="email"
                   value={form.email}
@@ -141,10 +153,14 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="staff-password"
+                  className="mb-1 block text-sm font-medium text-gray-700"
+                >
                   Mot de passe *
                 </label>
                 <input
+                  id="staff-password"
                   name="password"
                   type="password"
                   value={form.password}
@@ -158,10 +174,14 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="staff-role"
+                  className="mb-1 block text-sm font-medium text-gray-700"
+                >
                   Rôle *
                 </label>
                 <select
+                  id="staff-role"
                   name="role"
                   value={form.role}
                   onChange={handleChange}
@@ -289,10 +309,14 @@ export default function SettingsPage() {
                           onClick={() =>
                             handleToggle(member.id, member.isActive)
                           }
-                          disabled={toggleStaff.isPending}
+                          disabled={togglingId === member.id}
                           className="rounded-md border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-gray-50 disabled:opacity-40"
                         >
-                          {member.isActive ? 'Désactiver' : 'Réactiver'}
+                          {togglingId === member.id
+                            ? '…'
+                            : member.isActive
+                              ? 'Désactiver'
+                              : 'Réactiver'}
                         </button>
                       </td>
                     </tr>

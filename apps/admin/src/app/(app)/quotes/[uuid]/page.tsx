@@ -29,13 +29,32 @@ export default function QuoteDetailPage({
   const [successMsg, setSuccessMsg] = useState('');
 
   if (isLoading) {
-    return <div className="p-8 text-center text-gray-500">Chargement...</div>;
+    return (
+      <div className="mx-auto max-w-3xl space-y-6">
+        <Link
+          href={ADMIN_ROUTES.quotes}
+          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-800"
+        >
+          ← Retour aux devis
+        </Link>
+        <div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
+        <div className="h-64 animate-pulse rounded-xl bg-gray-200" />
+      </div>
+    );
   }
 
   if (isError || !quote) {
     return (
-      <div className="p-8 text-center text-red-600">
-        Erreur lors du chargement du devis.
+      <div className="mx-auto max-w-3xl space-y-4">
+        <Link
+          href={ADMIN_ROUTES.quotes}
+          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-800"
+        >
+          ← Retour aux devis
+        </Link>
+        <p className="text-sm text-red-600">
+          Erreur lors du chargement du devis.
+        </p>
       </div>
     );
   }

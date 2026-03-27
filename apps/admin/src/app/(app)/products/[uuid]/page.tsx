@@ -126,10 +126,14 @@ export default function ProductEditPage() {
           </div>
           <div className="space-y-4 px-6 py-5">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="nameFr"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
                 Nom (Français) *
               </label>
               <input
+                id="nameFr"
                 name="nameFr"
                 value={form.nameFr}
                 onChange={handleChange}
@@ -140,10 +144,14 @@ export default function ProductEditPage() {
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="nameAr"
+                  className="mb-1 block text-sm font-medium text-gray-700"
+                >
                   Nom (Arabe)
                 </label>
                 <input
+                  id="nameAr"
                   name="nameAr"
                   value={form.nameAr ?? ''}
                   onChange={handleChange}
@@ -155,10 +163,14 @@ export default function ProductEditPage() {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="nameEn"
+                  className="mb-1 block text-sm font-medium text-gray-700"
+                >
                   Nom (Anglais)
                 </label>
                 <input
+                  id="nameEn"
                   name="nameEn"
                   value={form.nameEn ?? ''}
                   onChange={handleChange}
@@ -179,10 +191,14 @@ export default function ProductEditPage() {
           </div>
           <div className="grid grid-cols-1 gap-4 px-6 py-5 sm:grid-cols-3">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="price"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
                 Prix (TND) *
               </label>
               <input
+                id="price"
                 name="price"
                 type="number"
                 min="0"
@@ -195,10 +211,14 @@ export default function ProductEditPage() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="compareAtPrice"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
                 Prix barré (TND)
               </label>
               <input
+                id="compareAtPrice"
                 name="compareAtPrice"
                 type="number"
                 min="0"
@@ -210,10 +230,14 @@ export default function ProductEditPage() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="stock"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
                 Stock *
               </label>
               <input
+                id="stock"
                 name="stock"
                 type="number"
                 min="0"
@@ -235,10 +259,14 @@ export default function ProductEditPage() {
           </div>
           <div className="space-y-4 px-6 py-5">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="category"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
                 Catégorie
               </label>
               <input
+                id="category"
                 name="category"
                 value={form.category ?? ''}
                 onChange={handleChange}
@@ -247,10 +275,14 @@ export default function ProductEditPage() {
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="descriptionFr"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
                 Description (Français)
               </label>
               <textarea
+                id="descriptionFr"
                 name="descriptionFr"
                 value={form.descriptionFr ?? ''}
                 onChange={handleChange}
