@@ -1,0 +1,157 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9'
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check (web)
+        run: pnpm --filter web exec tsc --noEmit
+
+      - name: Type check (admin)
+        run: pnpm --filter admin exec tsc --noEmit
+
+      - name: Type check (api)
+        run: pnpm --filter api exec tsc --noEmit
+
+  test-api:
+    name: API Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: mspi
+          POSTGRES_PASSWORD: mspi
+          POSTGRES_DB: mspi_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm --filter api exec prisma generate
+
+      - name: Run migrations
+        run: pnpm --filter api exec prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://mspi:mspi@localhost:5432/mspi_test
+
+      - name: Unit tests
+        run: pnpm --filter api test -- --passWithNoTests
+        env:
+          DATABASE_URL: postgresql://mspi:mspi@localhost:5432/mspi_test
+          JWT_SECRET: ci-test-secret
+          ADMIN_JWT_SECRET: ci-test-admin-secret
+          FACEBOOK_APP_ID: dummy
+          FACEBOOK_APP_SECRET: dummy
+          WEB_URL: http://localhost:3000
+          ADMIN_URL: http://localhost:3001
+
+      - name: E2E tests
+        run: pnpm --filter api test:e2e -- --passWithNoTests
+        env:
+          DATABASE_URL: postgresql://mspi:mspi@localhost:5432/mspi_test
+          JWT_SECRET: ci-test-secret
+          ADMIN_JWT_SECRET: ci-test-admin-secret
+          FACEBOOK_APP_ID: dummy
+          FACEBOOK_APP_SECRET: dummy
+          WEB_URL: http://localhost:3000
+          ADMIN_URL: http://localhost:3001
+
+  test-web:
+    name: Web Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit tests (web)
+        run: pnpm --filter web test -- --passWithNoTests --ci
+
+      - name: Unit tests (admin)
+        run: pnpm --filter admin test -- --passWithNoTests --ci
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck, test-api, test-web]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm --filter api exec prisma generate
+
+      - name: Build all apps
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:4000
+          NEXT_PUBLIC_SITE_URL: https://mspi.tn
