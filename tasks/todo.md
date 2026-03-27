@@ -40,7 +40,7 @@
 - [x] M2-T02 — Implement Cart module (API)
 - [x] M2-T03 — Product seed data
 - [x] M2-T04 — Product & cart unit tests
-- [ ] M2-T05 — Product & cart e2e tests
+- [x] M2-T05 — Product & cart e2e tests
 - [x] M2-T06 — Implement core module (web)
 - [x] M2-T07 — Install & configure shadcn/ui
 - [x] M2-T08 — Design & build navigation system
@@ -109,14 +109,14 @@
 - [ ] M5-T05 — Implement Meta Pixel events
 - [x] M5-T06 — Complete i18n translation files
 - [x] M5-T07 — RTL layout audit
-- [ ] M5-T08 — Implement all edge cases from PRD §16
+- [x] M5-T08 — Implement all edge cases from PRD §16
 - [x] M5-T09 — SEO implementation
-- [ ] M5-T10 — Performance optimization
-- [ ] M5-T11 — Security hardening
-- [ ] M5-T12 — E2E test suite (Playwright)
-- [ ] M5-T13 — Cross-browser & device testing
-- [ ] M5-T14 — Accessibility audit
-- [ ] M5-T15 — Load testing & monitoring
-- [ ] M5-T15a — Lightweight CI pipeline
-- [ ] M5-T16 — Deployment configuration
-- [ ] M5-T17 — Launch smoke test
+- [x] M5-T10 — Performance optimization
+- [x] M5-T11 — Security hardening
+- [x] M5-T12 — E2E test suite (Playwright)
+- [x] M5-T13 — Cross-browser & device testing
+- [x] M5-T14 — Accessibility audit
+- [x] M5-T15 — Load testing & monitoring
+- [x] M5-T15a — Lightweight CI pipeline
+- [x] M5-T16 — Deployment configuration
+- [x] M5-T17 — Launch smoke test
