@@ -11,11 +11,18 @@ export const http = axios.create({
   },
 });
 
+let redirectingToLogin = false;
+
 http.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (typeof window !== 'undefined' && error?.response?.status === 401) {
-      window.location.href = '/login';
+    if (
+      typeof window !== 'undefined' &&
+      error?.response?.status === 401 &&
+      !redirectingToLogin
+    ) {
+      redirectingToLogin = true;
+      window.location.replace('/login');
     }
     return Promise.reject(error);
   },

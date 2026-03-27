@@ -47,6 +47,7 @@ export default function SettingsPage() {
     type: 'success' | 'error';
     message: string;
   } | null>(null);
+  const [toggleError, setToggleError] = useState<string | null>(null);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -60,6 +61,7 @@ export default function SettingsPage() {
     setFeedback(null);
     try {
       await createStaff.mutateAsync(form);
+      createStaff.reset();
       setForm(EMPTY_FORM);
       setShowForm(false);
       setFeedback({ type: 'success', message: 'Membre créé avec succès.' });
@@ -69,10 +71,11 @@ export default function SettingsPage() {
   }
 
   async function handleToggle(id: number, currentlyActive: boolean) {
+    setToggleError(null);
     try {
       await toggleStaff.mutateAsync({ id, activate: !currentlyActive });
     } catch {
-      // silent — optimistic UI will revert via query invalidation
+      setToggleError('Impossible de modifier le statut. Veuillez réessayer.');
     }
   }
 
@@ -201,6 +204,10 @@ export default function SettingsPage() {
           >
             {feedback.message}
           </p>
+        )}
+
+        {toggleError && (
+          <p className="text-sm font-medium text-red-600">{toggleError}</p>
         )}
 
         {/* Staff table */}

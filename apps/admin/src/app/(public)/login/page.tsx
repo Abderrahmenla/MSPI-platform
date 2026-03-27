@@ -32,6 +32,10 @@ export default function LoginPage() {
         ?.status;
       if (status === 401 || status === 403) {
         setServerError('Email ou mot de passe incorrect');
+      } else if (status === 429) {
+        setServerError(
+          'Trop de tentatives. Veuillez patienter avant de réessayer.',
+        );
       } else {
         setServerError('Une erreur est survenue. Veuillez réessayer.');
       }
