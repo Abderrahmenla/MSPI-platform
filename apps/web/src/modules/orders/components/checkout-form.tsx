@@ -116,6 +116,8 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
           placeholder={label('phonePlaceholder')}
           disabled={isPending}
           autoComplete="tel"
+          aria-invalid={errors.phone ? 'true' : 'false'}
+          aria-describedby={errors.phone ? 'checkout-phone-error' : undefined}
           className={fieldClass}
           {...register('phone', {
             required: requiredMsg,
@@ -130,7 +132,11 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
             },
           })}
         />
-        {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
+        {errors.phone && (
+          <p id="checkout-phone-error" className={errorClass}>
+            {errors.phone.message}
+          </p>
+        )}
       </div>
 
       {/* Address */}
@@ -146,11 +152,17 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
           type="text"
           disabled={isPending}
           autoComplete="street-address"
+          aria-invalid={errors.address ? 'true' : 'false'}
+          aria-describedby={
+            errors.address ? 'checkout-address-error' : undefined
+          }
           className={fieldClass}
           {...register('address', { required: requiredMsg })}
         />
         {errors.address && (
-          <p className={errorClass}>{errors.address.message}</p>
+          <p id="checkout-address-error" className={errorClass}>
+            {errors.address.message}
+          </p>
         )}
       </div>
 
@@ -167,10 +179,16 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
           type="text"
           disabled={isPending}
           autoComplete="address-level2"
+          aria-invalid={errors.city ? 'true' : 'false'}
+          aria-describedby={errors.city ? 'checkout-city-error' : undefined}
           className={fieldClass}
           {...register('city', { required: requiredMsg })}
         />
-        {errors.city && <p className={errorClass}>{errors.city.message}</p>}
+        {errors.city && (
+          <p id="checkout-city-error" className={errorClass}>
+            {errors.city.message}
+          </p>
+        )}
       </div>
 
       {/* Label (optional) */}

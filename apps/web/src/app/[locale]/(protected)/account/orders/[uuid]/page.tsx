@@ -41,7 +41,7 @@ export default function OrderDetailPage() {
     const status = (error as { response?: { status?: number } })?.response
       ?.status;
     if (status === 401 || status === 404) {
-      router.push(
+      router.replace(
         status === 401 ? ROUTES_MAP.login : ROUTES_MAP.account.orders,
       );
     }

@@ -81,19 +81,31 @@ export default function OrdersPage() {
               <table className="w-full text-sm">
                 <thead className="border-b border-[#e4e4e7] bg-[#f4f4f5]">
                   <tr>
-                    <th className="px-5 py-3 text-left font-medium text-[#525252]">
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-left font-medium text-[#525252]"
+                    >
                       Référence
                     </th>
-                    <th className="px-5 py-3 text-left font-medium text-[#525252]">
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-left font-medium text-[#525252]"
+                    >
                       Date
                     </th>
-                    <th className="px-5 py-3 text-left font-medium text-[#525252]">
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-left font-medium text-[#525252]"
+                    >
                       Statut
                     </th>
-                    <th className="px-5 py-3 text-right font-medium text-[#525252]">
+                    <th
+                      scope="col"
+                      className="px-5 py-3 text-right font-medium text-[#525252]"
+                    >
                       Total
                     </th>
-                    <th className="px-5 py-3" />
+                    <th scope="col" className="px-5 py-3" />
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#e4e4e7]">

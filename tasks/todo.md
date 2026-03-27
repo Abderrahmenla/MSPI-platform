@@ -72,8 +72,8 @@
 - [x] M3-T13 — Build My Quotes pages
 - [x] M3-T14 — Build Profile page
 - [x] M3-T15 — Frontend tests (checkout + account)
-- [ ] M3-T16 — UI/UX review — checkout & account
-- [ ] M3-T17 — Security review — checkout flow
+- [x] M3-T16 — UI/UX review — checkout & account
+- [x] M3-T17 — Security review — checkout flow
 
 ---
 
