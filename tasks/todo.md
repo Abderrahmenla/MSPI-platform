@@ -51,7 +51,7 @@
 - [x] M2-T13 — Build Cart Page
 - [x] M2-T14 — Implement cart merge on login
 - [x] M2-T15 — Frontend component tests (catalog)
-- [ ] M2-T16 — UI/UX review — catalog pages
+- [x] M2-T16 — UI/UX review — catalog pages
 
 ---
 

@@ -163,8 +163,9 @@ export function ProductCard({ product, locale }: ProductCardProps) {
         <button
           type="button"
           disabled={isOos || isPending}
+          aria-busy={isPending}
           onClick={() => addToCart({ productId: product.id, qty: 1 })}
-          className="bg-brand-500 hover:bg-brand-600 mt-1 w-full rounded-xl px-3 py-2 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+          className="bg-brand-500 hover:bg-brand-600 focus-visible:ring-brand-500 mt-1 w-full rounded-xl px-3 py-2 text-sm font-semibold text-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isPending ? '...' : addLabel}
         </button>
