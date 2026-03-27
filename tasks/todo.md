@@ -57,21 +57,21 @@
 
 ## Milestone 3: Checkout, Orders & Quotes
 
-- [ ] M3-T01 — Implement Orders module (API)
-- [ ] M3-T02 — Implement order status transitions
-- [ ] M3-T03 — Implement Quotes module (API)
-- [ ] M3-T04 — Implement Notes module
-- [ ] M3-T05 — Orders & quotes unit tests
-- [ ] M3-T06 — Orders & quotes e2e tests
-- [ ] M3-T07 — Build Facebook SSO gate component
-- [ ] M3-T08 — Build Checkout page
-- [ ] M3-T09 — Build Checkout confirmation page
-- [ ] M3-T10 — Build Quote form page (/devis)
-- [ ] M3-T11 — Build Account dashboard
-- [ ] M3-T12 — Build My Orders pages
-- [ ] M3-T13 — Build My Quotes pages
-- [ ] M3-T14 — Build Profile page
-- [ ] M3-T15 — Frontend tests (checkout + account)
+- [x] M3-T01 — Implement Orders module (API)
+- [x] M3-T02 — Implement order status transitions
+- [x] M3-T03 — Implement Quotes module (API)
+- [x] M3-T04 — Implement Notes module (admin-only; customer-facing endpoint not required per PRD)
+- [x] M3-T05 — Orders & quotes unit tests
+- [x] M3-T06 — Orders & quotes e2e tests
+- [x] M3-T07 — Build Facebook SSO gate component
+- [x] M3-T08 — Build Checkout page
+- [x] M3-T09 — Build Checkout confirmation page
+- [x] M3-T10 — Build Quote form page (/devis)
+- [x] M3-T11 — Build Account dashboard
+- [x] M3-T12 — Build My Orders pages
+- [x] M3-T13 — Build My Quotes pages
+- [x] M3-T14 — Build Profile page
+- [x] M3-T15 — Frontend tests (checkout + account)
 - [ ] M3-T16 — UI/UX review — checkout & account
 - [ ] M3-T17 — Security review — checkout flow
 
