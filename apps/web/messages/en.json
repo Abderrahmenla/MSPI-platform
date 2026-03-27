@@ -4,8 +4,85 @@
     "home": "Home",
     "products": "Products",
     "cart": "Cart",
-    "quote": "Request a Quote",
+    "quote": "Get a Quote",
     "account": "My Account",
-    "login": "Login"
+    "login": "Login",
+    "logout": "Logout",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "required": "This field is required",
+    "back": "Back",
+    "seeAll": "See all",
+    "currency": "DT"
+  },
+  "nav": {
+    "products": "Products",
+    "quote": "Get a Quote",
+    "account": "My Account",
+    "cart": "Cart"
+  },
+  "hero": {
+    "h1": "Protect What Matters",
+    "subtitle": "Certified fire extinguishers — Delivery across Tunisia — Cash on delivery",
+    "shopCta": "Shop Now",
+    "quoteCta": "Get Free Quote"
+  },
+  "trust": {
+    "cod": "Cash on Delivery",
+    "delivery": "Tunisia-wide Delivery",
+    "certified": "Certified Products",
+    "support": "WhatsApp Support"
+  },
+  "products": {
+    "title": "Our Products",
+    "addToCart": "Add to Cart",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock",
+    "lowStock": "Only {count} left",
+    "sortDefault": "Default sorting",
+    "sortPriceAsc": "Price: Low to High",
+    "sortPriceDesc": "Price: High to Low"
+  },
+  "cart": {
+    "title": "My Cart",
+    "empty": "Your cart is empty",
+    "checkout": "Proceed to Checkout",
+    "continueShopping": "Continue Shopping",
+    "total": "Total"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "label": "Label (optional)",
+    "submit": "Place Order",
+    "submitting": "Submitting..."
+  },
+  "quote": {
+    "title": "Request a Quote",
+    "name": "Full name",
+    "company": "Company name",
+    "phone": "Phone",
+    "email": "Email address",
+    "message": "Your message",
+    "submit": "Send request",
+    "success": "Your request has been sent successfully"
+  },
+  "account": {
+    "title": "My Account",
+    "orders": "My Orders",
+    "quotes": "My Quotes",
+    "profile": "My Profile",
+    "noOrders": "No orders yet",
+    "noQuotes": "No quotes yet"
+  },
+  "seo": {
+    "homeTitle": "MSPI Fire Safety — Certified Extinguishers in Tunisia",
+    "homeDesc": "Buy certified fire extinguishers at the best prices. Delivery across Tunisia, cash on delivery.",
+    "productsTitle": "Products — MSPI Fire Safety",
+    "productsDesc": "Browse our full range of fire extinguishers for home, car, and business.",
+    "quoteTitle": "Request a Quote — MSPI Fire Safety",
+    "quoteDesc": "Get a free quote within 24 hours for your fire safety equipment needs."
   }
 }

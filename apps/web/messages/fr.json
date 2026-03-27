@@ -6,6 +6,83 @@
     "cart": "Panier",
     "quote": "Demande de devis",
     "account": "Mon compte",
-    "login": "Connexion"
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "required": "Ce champ est obligatoire",
+    "back": "Retour",
+    "seeAll": "Voir tout",
+    "currency": "DT"
+  },
+  "nav": {
+    "products": "Produits",
+    "quote": "Demande de devis",
+    "account": "Mon compte",
+    "cart": "Panier"
+  },
+  "hero": {
+    "h1": "Protégez ce qui compte",
+    "subtitle": "Extincteurs certifiés — Livraison partout en Tunisie — Paiement à la livraison",
+    "shopCta": "Acheter maintenant",
+    "quoteCta": "Devis gratuit"
+  },
+  "trust": {
+    "cod": "Paiement à la livraison",
+    "delivery": "Livraison partout en Tunisie",
+    "certified": "Produits certifiés",
+    "support": "Support WhatsApp"
+  },
+  "products": {
+    "title": "Nos produits",
+    "addToCart": "Ajouter au panier",
+    "outOfStock": "Rupture de stock",
+    "inStock": "En stock",
+    "lowStock": "Plus que {count}",
+    "sortDefault": "Tri par défaut",
+    "sortPriceAsc": "Prix croissant",
+    "sortPriceDesc": "Prix décroissant"
+  },
+  "cart": {
+    "title": "Mon panier",
+    "empty": "Votre panier est vide",
+    "checkout": "Finaliser la commande",
+    "continueShopping": "Continuer mes achats",
+    "total": "Total"
+  },
+  "checkout": {
+    "title": "Finaliser la commande",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "city": "Ville",
+    "label": "Étiquette (optionnel)",
+    "submit": "Confirmer la commande",
+    "submitting": "Envoi en cours..."
+  },
+  "quote": {
+    "title": "Demande de devis",
+    "name": "Nom complet",
+    "company": "Nom de l'entreprise",
+    "phone": "Téléphone",
+    "email": "Adresse email",
+    "message": "Votre message",
+    "submit": "Envoyer ma demande",
+    "success": "Votre demande a bien été envoyée"
+  },
+  "account": {
+    "title": "Mon compte",
+    "orders": "Mes commandes",
+    "quotes": "Mes devis",
+    "profile": "Mon profil",
+    "noOrders": "Aucune commande pour le moment",
+    "noQuotes": "Aucun devis pour le moment"
+  },
+  "seo": {
+    "homeTitle": "MSPI Sécurité Incendie — Extincteurs certifiés en Tunisie",
+    "homeDesc": "Achetez des extincteurs certifiés aux meilleurs prix. Livraison partout en Tunisie, paiement à la livraison.",
+    "productsTitle": "Nos produits — MSPI Sécurité Incendie",
+    "productsDesc": "Découvrez notre gamme complète d'extincteurs pour la maison, la voiture et les entreprises.",
+    "quoteTitle": "Demande de devis — MSPI Sécurité Incendie",
+    "quoteDesc": "Obtenez un devis gratuit en 24 heures pour vos besoins en matériel de sécurité incendie."
   }
 }

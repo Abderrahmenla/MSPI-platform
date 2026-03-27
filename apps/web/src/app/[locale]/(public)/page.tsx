@@ -1,4 +1,5 @@
 import { use } from 'react';
+import type { Metadata } from 'next';
 import { TrustBadges } from '@/modules/core/components';
 import { ProductsGrid } from '@/modules/products/components';
 import { HeroSection } from '@/modules/home/components/hero-section';
@@ -10,6 +11,31 @@ import { FaqSection } from '@/modules/home/components/faq-section';
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: HomePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = {
+    ar: {
+      title: 'MSPI للسلامة من الحرائق — طفايات معتمدة بتونس',
+      description:
+        'اشترِ طفايات حريق معتمدة بأفضل الأسعار. توصيل لكل تونس والدفع عند الاستلام.',
+    },
+    fr: {
+      title: 'MSPI Sécurité Incendie — Extincteurs certifiés en Tunisie',
+      description:
+        'Achetez des extincteurs certifiés aux meilleurs prix. Livraison partout en Tunisie, paiement à la livraison.',
+    },
+    en: {
+      title: 'MSPI Fire Safety — Certified Extinguishers in Tunisia',
+      description:
+        'Buy certified fire extinguishers at the best prices. Delivery across Tunisia, cash on delivery.',
+    },
+  };
+  const m = meta[locale as keyof typeof meta] ?? meta.fr;
+  return { title: m.title, description: m.description };
 }
 
 export default function HomePage({ params }: HomePageProps) {
