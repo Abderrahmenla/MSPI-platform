@@ -79,24 +79,24 @@
 
 ## Milestone 4: Admin CRM
 
-- [ ] M4-T01 — Implement Dashboard module
-- [ ] M4-T02 — Implement admin Orders endpoints
-- [ ] M4-T03 — Implement admin Quotes endpoints
-- [ ] M4-T04 — Implement admin Customers endpoints
-- [ ] M4-T05 — Implement admin Staff & Settings
-- [ ] M4-T06 — Admin endpoints unit + e2e tests
-- [ ] M4-T07 — Build admin core module
-- [ ] M4-T08 — Build admin auth (login page)
-- [ ] M4-T09 — Build admin layout shell
-- [ ] M4-T10 — Build Dashboard page
-- [ ] M4-T11 — Build Orders management pages
-- [ ] M4-T12 — Build Quotes management pages
-- [ ] M4-T13 — Build Customers pages
-- [ ] M4-T14 — Build Products management pages
-- [ ] M4-T15 — Build Settings pages
-- [ ] M4-T16 — Admin frontend tests
-- [ ] M4-T17 — Admin UI/UX review
-- [ ] M4-T18 — Admin security review
+- [x] M4-T01 — Implement Dashboard module
+- [x] M4-T02 — Implement admin Orders endpoints
+- [x] M4-T03 — Implement admin Quotes endpoints
+- [x] M4-T04 — Implement admin Customers endpoints
+- [x] M4-T05 — Implement admin Staff & Settings
+- [x] M4-T06 — Admin endpoints unit + e2e tests
+- [x] M4-T07 — Build admin core module
+- [x] M4-T08 — Build admin auth (login page)
+- [x] M4-T09 — Build admin layout shell
+- [x] M4-T10 — Build Dashboard page
+- [x] M4-T11 — Build Orders management pages
+- [x] M4-T12 — Build Quotes management pages
+- [x] M4-T13 — Build Customers pages
+- [x] M4-T14 — Build Products management pages
+- [x] M4-T15 — Build Settings pages
+- [x] M4-T16 — Admin frontend tests
+- [x] M4-T17 — Admin UI/UX review
+- [x] M4-T18 — Admin security review
 
 ---
 

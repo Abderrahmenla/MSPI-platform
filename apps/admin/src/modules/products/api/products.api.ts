@@ -38,13 +38,3 @@ export async function updateProduct(
   );
   return data;
 }
-
-export async function toggleProductStatus(
-  uuid: string,
-  isActive: boolean,
-): Promise<Product> {
-  const { data } = await http.patch<Product>(`/admin/products/${uuid}`, {
-    isActive,
-  });
-  return data;
-}

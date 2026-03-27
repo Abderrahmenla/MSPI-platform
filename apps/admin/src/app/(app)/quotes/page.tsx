@@ -4,8 +4,14 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useQuotes } from '@/modules/quotes/hooks/use-quotes';
 import type { QuoteStatus } from '@/modules/quotes/types/quote.types';
+import {
+  QUOTE_STATUS_CLASSES,
+  QUOTE_STATUS_LABELS,
+} from '@/modules/quotes/constants/quote-status.constants';
 import { ADMIN_ROUTES } from '@/modules/core/constants/routes-map.constants';
 import { cn } from '@/modules/core/lib/cn';
+
+const PAGE_LIMIT = 20;
 
 const STATUS_OPTIONS: { label: string; value: QuoteStatus | '' }[] = [
   { label: 'Tous', value: '' },
@@ -17,34 +23,19 @@ const STATUS_OPTIONS: { label: string; value: QuoteStatus | '' }[] = [
   { label: 'Expiré', value: 'EXPIRED' },
 ];
 
-const STATUS_BADGE: Record<QuoteStatus, string> = {
-  NEW: 'bg-blue-100 text-blue-800',
-  CONTACTED: 'bg-yellow-100 text-yellow-800',
-  OFFER_SENT: 'bg-purple-100 text-purple-800',
-  WON: 'bg-green-100 text-green-800',
-  LOST: 'bg-gray-100 text-gray-600',
-  EXPIRED: 'bg-gray-100 text-gray-600',
-};
-
-const STATUS_LABEL: Record<QuoteStatus, string> = {
-  NEW: 'Nouveau',
-  CONTACTED: 'Contacté',
-  OFFER_SENT: 'Offre envoyée',
-  WON: 'Gagné',
-  LOST: 'Perdu',
-  EXPIRED: 'Expiré',
-};
-
 export default function QuotesPage() {
   const [status, setStatus] = useState<QuoteStatus | ''>('');
   const [page, setPage] = useState(1);
-  const limit = 20;
 
-  const { data, isLoading, isError } = useQuotes({ status, page, limit });
+  const { data, isLoading, isError } = useQuotes({
+    status,
+    page,
+    limit: PAGE_LIMIT,
+  });
 
   const quotes = data?.data ?? [];
   const total = data?.meta.total ?? 0;
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / PAGE_LIMIT);
 
   return (
     <div className="space-y-6">
@@ -122,10 +113,10 @@ export default function QuotesPage() {
                     <span
                       className={cn(
                         'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
-                        STATUS_BADGE[quote.status],
+                        QUOTE_STATUS_CLASSES[quote.status],
                       )}
                     >
-                      {STATUS_LABEL[quote.status]}
+                      {QUOTE_STATUS_LABELS[quote.status]}
                     </span>
                   </td>
                   <td className="px-4 py-3">

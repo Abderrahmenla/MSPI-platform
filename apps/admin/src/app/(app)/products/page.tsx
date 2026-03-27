@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ADMIN_ROUTES } from '@/modules/core/constants/routes-map.constants';
@@ -32,7 +32,7 @@ function StockBadge({ stock }: { stock: number }) {
 }
 
 function ProductRow({ product }: { product: Product }) {
-  const { mutate: updateProduct, isPending } = useUpdateProduct();
+  const { mutate: updateProduct, isPending, isError } = useUpdateProduct();
 
   const thumbnail = product.images[0]?.url ?? null;
 
@@ -87,6 +87,7 @@ function ProductRow({ product }: { product: Product }) {
         </button>
       </td>
       <td className="py-3 pr-4 pl-3 text-right">
+        {isError && <span className="mr-2 text-xs text-red-600">Erreur</span>}
         <Link
           href={ADMIN_ROUTES.product(product.uuid)}
           className="text-sm font-medium text-[#ec4130] hover:text-[#d63828]"
@@ -98,15 +99,24 @@ function ProductRow({ product }: { product: Product }) {
   );
 }
 
+const PAGE_LIMIT = 20;
+
 export default function ProductsPage() {
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState<boolean | undefined>(
     undefined,
   );
 
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
   const { data, isLoading, isError } = useProducts({
-    search: search || undefined,
+    search: debouncedSearch || undefined,
     isActive: activeFilter,
+    limit: PAGE_LIMIT,
   });
 
   const products = data?.data ?? [];

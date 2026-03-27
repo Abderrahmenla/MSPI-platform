@@ -23,6 +23,10 @@ http.interceptors.response.use(
     ) {
       redirectingToLogin = true;
       window.location.replace('/login');
+      // Reset after navigation so the guard works again on re-login
+      setTimeout(() => {
+        redirectingToLogin = false;
+      }, 3000);
     }
     return Promise.reject(error);
   },
