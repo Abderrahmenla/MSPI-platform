@@ -5,14 +5,21 @@ import { toast } from 'sonner';
 import { addCartItem, type AddCartItemPayload } from '../api/cart.api';
 import { addGuestCartItem } from '../lib/guest-cart';
 import { cartKeys } from '../constants/cart-query-keys.constants';
+import { addToCart as pixelAddToCart } from '@/modules/analytics';
 
 export function useAddToCart() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (payload: AddCartItemPayload) => addCartItem(payload),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: cartKeys.detail() });
+      pixelAddToCart({
+        content_ids: [String(variables.productId)],
+        content_name: '',
+        value: 0,
+        currency: 'TND',
+      });
     },
     onError: (error: unknown, variables) => {
       const status = (error as { response?: { status?: number } })?.response

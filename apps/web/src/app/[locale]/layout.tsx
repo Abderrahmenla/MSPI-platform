@@ -7,6 +7,7 @@ import { Toaster } from 'sonner';
 import { routing } from '@/i18n/routing';
 import { QueryProvider } from '@/modules/core/providers';
 import { CartMergeOnLogin } from '@/modules/cart/components/cart-merge-on-login';
+import { MetaPixel } from '@/modules/analytics';
 import '../globals.css';
 
 const rubik = Rubik({
@@ -50,6 +51,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={`${rubik.variable} ${nunitoSans.variable}`}
     >
       <body className="min-h-screen bg-white text-gray-900 antialiased">
+        <MetaPixel />
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <CartMergeOnLogin />

@@ -7,6 +7,7 @@ import { ROUTES_MAP } from '@/modules/core/constants';
 import { useCart } from '@/modules/cart/hooks/use-cart';
 import { CheckoutForm } from '@/modules/orders/components/checkout-form';
 import { OrderSummary } from '@/modules/orders/components/order-summary';
+import { initiateCheckout } from '@/modules/analytics';
 
 function CheckoutSkeleton() {
   return (
@@ -50,6 +51,18 @@ export default function CheckoutPage({ params: _params }: Props) {
       router.replace(ROUTES_MAP.cart);
     }
   }, [isLoading, is401, items.length, router]);
+
+  useEffect(() => {
+    if (!isLoading && !is401 && items.length > 0) {
+      const total = items.reduce(
+        (sum, item) => sum + parseFloat(item.product.price) * item.qty,
+        0,
+      );
+      initiateCheckout({ value: total, currency: 'TND' });
+    }
+    // Fire once when cart loads with items
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   if (isLoading || is401 || (!isLoading && items.length === 0)) {
     return (

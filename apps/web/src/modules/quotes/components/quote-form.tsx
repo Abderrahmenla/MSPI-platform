@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { cn } from '@/modules/core/lib/cn';
+import { lead } from '@/modules/analytics';
 import { useCreateQuote } from '../hooks';
 import type { CreateQuoteDto } from '../types';
 
@@ -39,6 +40,7 @@ export function QuoteForm() {
 
     mutate(dto, {
       onSuccess: () => {
+        lead({ content_name: 'quote_request' });
         setSubmitted(true);
         reset();
       },
