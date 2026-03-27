@@ -36,21 +36,21 @@
 
 ## Milestone 2: Product Catalog & Cart
 
-- [ ] M2-T01 — Implement Products module (API)
-- [ ] M2-T02 — Implement Cart module (API)
-- [ ] M2-T03 — Product seed data
-- [ ] M2-T04 — Product & cart unit tests
+- [x] M2-T01 — Implement Products module (API)
+- [x] M2-T02 — Implement Cart module (API)
+- [x] M2-T03 — Product seed data
+- [x] M2-T04 — Product & cart unit tests
 - [ ] M2-T05 — Product & cart e2e tests
-- [ ] M2-T06 — Implement core module (web)
-- [ ] M2-T07 — Install & configure shadcn/ui
-- [ ] M2-T08 — Design & build navigation system
-- [ ] M2-T09 — Design footer component
-- [ ] M2-T10 — Design trust badges component
-- [ ] M2-T11 — Build Product Listing Page (PLP)
-- [ ] M2-T12 — Build Product Detail Page (PDP)
-- [ ] M2-T13 — Build Cart Page
-- [ ] M2-T14 — Implement cart merge on login
-- [ ] M2-T15 — Frontend component tests (catalog)
+- [x] M2-T06 — Implement core module (web)
+- [x] M2-T07 — Install & configure shadcn/ui
+- [x] M2-T08 — Design & build navigation system
+- [x] M2-T09 — Design footer component
+- [x] M2-T10 — Design trust badges component
+- [x] M2-T11 — Build Product Listing Page (PLP)
+- [x] M2-T12 — Build Product Detail Page (PDP)
+- [x] M2-T13 — Build Cart Page
+- [x] M2-T14 — Implement cart merge on login
+- [x] M2-T15 — Frontend component tests (catalog)
 - [ ] M2-T16 — UI/UX review — catalog pages
 
 ---

@@ -84,7 +84,7 @@ describe('CheckoutForm', () => {
     render(<CheckoutForm {...defaultProps} />);
 
     fireEvent.change(screen.getByPlaceholderText(/e\.g\. 21612345678/i), {
-      target: { value: '21612345678' },
+      target: { value: '21623456789' },
     });
     const textInputs = screen
       .getAllByRole('textbox')
@@ -97,7 +97,7 @@ describe('CheckoutForm', () => {
     await waitFor(() => {
       expect(mockMutate).toHaveBeenCalledWith({
         idempotencyKey: 'test-key-123',
-        phone: '21612345678',
+        phone: '21623456789',
         address: { address: '12 Rue de la Paix', city: 'Tunis' },
       });
     });

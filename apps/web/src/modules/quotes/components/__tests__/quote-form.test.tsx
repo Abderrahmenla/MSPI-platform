@@ -114,7 +114,7 @@ describe('QuoteForm', () => {
       target: { value: 'Mohamed Ben Ali' },
     });
     fireEvent.change(screen.getByPlaceholderText(/Ex : 21612345678/i), {
-      target: { value: '21612345678' },
+      target: { value: '21623456789' },
     });
     fireEvent.change(screen.getByPlaceholderText(MESSAGE_PLACEHOLDER), {
       target: {
@@ -130,7 +130,7 @@ describe('QuoteForm', () => {
       expect(mockMutate).toHaveBeenCalledWith(
         expect.objectContaining({
           contactName: 'Mohamed Ben Ali',
-          contactPhone: '21612345678',
+          contactPhone: '21623456789',
           message:
             'Installation de détecteurs incendie pour un entrepôt de 500 m²',
         }),
