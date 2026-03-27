@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useOrder } from '@/modules/orders/hooks/use-order';
+import { useReorder } from '@/modules/orders/hooks/use-reorder';
 import { ROUTES_MAP } from '@/modules/core/constants/routes-map.constants';
 import { cn } from '@/modules/core/lib/cn';
 import type { OrderStatus } from '@/modules/orders/types/order.types';
@@ -36,6 +37,8 @@ export default function OrderDetailPage() {
   const params = useParams<{ uuid: string }>();
   const router = useRouter();
   const { data, isLoading, error } = useOrder(params.uuid);
+  const { reorder } = useReorder();
+  const [isReordering, setIsReordering] = useState(false);
 
   useEffect(() => {
     const status = (error as { response?: { status?: number } })?.response
@@ -79,14 +82,33 @@ export default function OrderDetailPage() {
               {formatDate(order.createdAt)}
             </p>
           </div>
-          <span
-            className={cn(
-              'rounded-full px-3 py-1 text-sm font-medium',
-              ORDER_STATUS_COLORS[order.status],
-            )}
-          >
-            {ORDER_STATUS_LABELS[order.status]}
-          </span>
+          <div className="flex items-center gap-2">
+            <span
+              className={cn(
+                'rounded-full px-3 py-1 text-sm font-medium',
+                ORDER_STATUS_COLORS[order.status],
+              )}
+            >
+              {ORDER_STATUS_LABELS[order.status]}
+            </span>
+            <button
+              type="button"
+              disabled={isReordering}
+              onClick={async () => {
+                setIsReordering(true);
+                await reorder(order.items);
+                setIsReordering(false);
+              }}
+              className={cn(
+                'rounded-xl px-3 py-1.5 text-sm font-medium transition-colors',
+                isReordering
+                  ? 'cursor-not-allowed bg-gray-100 text-gray-400'
+                  : 'bg-[#ec4130] text-white hover:bg-[#d63828]',
+              )}
+            >
+              {isReordering ? 'Ajout…' : 'Recommander'}
+            </button>
+          </div>
         </div>
 
         {order.trackingNumber && (

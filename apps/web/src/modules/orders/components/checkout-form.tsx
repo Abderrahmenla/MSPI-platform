@@ -157,7 +157,18 @@ export function CheckoutForm({ idempotencyKey, locale }: CheckoutFormProps) {
             errors.address ? 'checkout-address-error' : undefined
           }
           className={fieldClass}
-          {...register('address', { required: requiredMsg })}
+          {...register('address', {
+            required: requiredMsg,
+            minLength: {
+              value: 10,
+              message:
+                locale === 'ar'
+                  ? 'العنوان قصير جداً (10 أحرف على الأقل)'
+                  : locale === 'en'
+                    ? 'Address too short (min 10 characters)'
+                    : 'Adresse trop courte (10 caractères min)',
+            },
+          })}
         />
         {errors.address && (
           <p id="checkout-address-error" className={errorClass}>

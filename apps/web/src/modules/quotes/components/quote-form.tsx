@@ -22,8 +22,11 @@ export function QuoteForm() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<QuoteFormValues>();
+
+  const messageValue = watch('message', '');
 
   function onSubmit(values: QuoteFormValues) {
     const dto: CreateQuoteDto = {
@@ -211,11 +214,28 @@ export function QuoteForm() {
               value: 20,
               message: 'Minimum 20 caractères',
             },
+            maxLength: {
+              value: 2000,
+              message: 'Maximum 2000 caractères',
+            },
           })}
         />
-        {errors.message && (
-          <p className={errorClass}>{errors.message.message}</p>
-        )}
+        <div className="mt-1 flex items-start justify-between gap-2">
+          {errors.message ? (
+            <p className={errorClass}>{errors.message.message}</p>
+          ) : (
+            <span />
+          )}
+          <span
+            className={`text-xs tabular-nums ${
+              (messageValue?.length ?? 0) > 1900
+                ? 'text-red-500'
+                : 'text-gray-400'
+            }`}
+          >
+            {messageValue?.length ?? 0}/2000
+          </span>
+        </div>
       </div>
 
       {/* Generic error */}

@@ -3,6 +3,7 @@ import { Rubik, Nunito_Sans } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { Toaster } from 'sonner';
 import { routing } from '@/i18n/routing';
 import { QueryProvider } from '@/modules/core/providers';
 import { CartMergeOnLogin } from '@/modules/cart/components/cart-merge-on-login';
@@ -53,6 +54,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <QueryProvider>
             <CartMergeOnLogin />
             {children}
+            <Toaster position="top-center" richColors />
           </QueryProvider>
         </NextIntlClientProvider>
       </body>
