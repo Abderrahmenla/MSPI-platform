@@ -106,7 +106,7 @@
 - [x] M5-T02 — Landing page animation review
 - [x] M5-T03 — Implement WhatsApp template system
 - [x] M5-T04 — Integrate WhatsApp throughout frontend
-- [ ] M5-T05 — Implement Meta Pixel events
+- [x] M5-T05 — Implement Meta Pixel events
 - [x] M5-T06 — Complete i18n translation files
 - [x] M5-T07 — RTL layout audit
 - [x] M5-T08 — Implement all edge cases from PRD §16
