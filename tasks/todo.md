@@ -102,13 +102,13 @@
 
 ## Milestone 5: Integration, Polish & Launch Prep
 
-- [ ] M5-T01 — Build Landing Page
-- [ ] M5-T02 — Landing page animation review
-- [ ] M5-T03 — Implement WhatsApp template system
-- [ ] M5-T04 — Integrate WhatsApp throughout frontend
+- [x] M5-T01 — Build Landing Page
+- [x] M5-T02 — Landing page animation review
+- [x] M5-T03 — Implement WhatsApp template system
+- [x] M5-T04 — Integrate WhatsApp throughout frontend
 - [ ] M5-T05 — Implement Meta Pixel events
 - [ ] M5-T06 — Complete i18n translation files
-- [ ] M5-T07 — RTL layout audit
+- [x] M5-T07 — RTL layout audit
 - [ ] M5-T08 — Implement all edge cases from PRD §16
 - [ ] M5-T09 — SEO implementation
 - [ ] M5-T10 — Performance optimization
